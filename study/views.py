@@ -19,10 +19,10 @@ def index(request):
 
 
 
-@api_view(['GET'], ['POST'], ['PUT'], ['PATCH'], ['DELETE'])
+@api_view(['GET','POST','PUT','PATCH','DELETE'])
 def student(request):
     if request.method == 'GET':
-        objStudents = Students.objects.all()
+        objStudents = Students.objects.filter(team__isnull=False)
         serializer = StudentSerializer(objStudents, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':

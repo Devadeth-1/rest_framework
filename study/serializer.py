@@ -1,10 +1,25 @@
 from rest_framework import serializers
-from study.models import Students
+from study.models import Students,Team
+
+
+class TeamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Team
+        fields = ['team_name']
+        
 
 class StudentSerializer(serializers.ModelSerializer):
+    team = TeamSerializer()
+    team_info = serializers.SerializerMethodField()
+
     class Meta:
         model = Students
         fields = '__all__'
+        depth = 1
+
+
+    def get_team_info(self,obj):
+        return "extra serializer field"
 
     def validate(self, data):
         spl_chars = "!@#$%^&*()-+?_=,<>/"
